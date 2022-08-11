@@ -3,7 +3,7 @@
 // @version      3.0
 // @description  Запись на соревнования. ПРИ ВЫПОЛНЕНИИ НЕ СИДИТЕ НА СТРАНИЦЕ, ОТ ЭТОГО СКРИПТ ТОРМОЗИТ! И НЕ ЗАХОДИТЕ К ДРУГИМ ЛОШАДЯМ!
 // @namespace    http://tampermonkey.net/
-// @author       4eDo
+// @author       4eDo (https://github.com/4eDo/lowadi)
 // @match        https://www.lowadi.com/elevage/chevaux/*
 // @match        https://www.lowadi.com/elevage/competition/*
 // ==/UserScript==
