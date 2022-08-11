@@ -3,6 +3,7 @@
 // @version      1.0
 // @description  Растишка. ПРИ ВЫПОЛНЕНИИ НЕ СИДИТЕ НА СТРАНИЦЕ, ОТ ЭТОГО СКРИПТ ТОРМОЗИТ! И НЕ ЗАХОДИТЕ К ДРУГИМ ЛОШАДЯМ!
 // @namespace    http://tampermonkey.net/
+// @author       4eDo
 // @match        https://www.lowadi.com/elevage/chevaux/*
 // ==/UserScript==
 
