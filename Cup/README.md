@@ -22,4 +22,4 @@
 При необходимости можно досрочно прекратить работу скрипта. Для этого необходимо нажать кнопку "Остановить"
 
 ## Версии
-- [v3.0 (min)](https://github.com/4eDo/lowadi/blob/859c27baca4802052e39488f320263855a1e0b5c/Cup/Cup_v3.0.min.user.js)
+- [v3.0 (min)](https://github.com/4eDo/lowadi/blob/main/Cup/Cup_v3.0.min.user.js)
