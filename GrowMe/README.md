@@ -22,4 +22,4 @@
 При необходимости можно досрочно прекратить работу скрипта. Для этого необходимо нажать кнопку "Остановить"
 
 ## Версии
-- [v1.0](https://github.com/4eDo/lowadi/blob/main/GrowMe/GrowMe_v1.0.user.js)
+- [v1.0](https://github.com/4eDo/lowadi/blob/main/GrowMe/GrowMe_v1.0.min.user.js)
