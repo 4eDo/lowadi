@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Растишка
-// @version      15.04.21
-// @description  Растишка. ПРИ ВЫПОЛНЕНИИ НЕ СИДИТЕ НА СТРАНИЦЕБ ОТ ЭТОГО СКРИПТ ТОРМОЗИТ! И НЕ ЗАХОДИТЕ К ДРУГИМ ЛОШАДЯМ!
+// @version      1.0
+// @description  Растишка. ПРИ ВЫПОЛНЕНИИ НЕ СИДИТЕ НА СТРАНИЦЕ, ОТ ЭТОГО СКРИПТ ТОРМОЗИТ! И НЕ ЗАХОДИТЕ К ДРУГИМ ЛОШАДЯМ!
 // @namespace    http://tampermonkey.net/
 // @match        https://www.lowadi.com/elevage/chevaux/*
 // ==/UserScript==
