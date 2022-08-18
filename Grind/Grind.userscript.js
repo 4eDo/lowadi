@@ -11,9 +11,8 @@
 
 $('body#global').append('<div class="stopMe" style="display:block;color:#ffffff;position:fixed;width: 100px;height: 20px;top: 30px;padding: 5px;left: 10px;background-color:rgba(128, 0, 0, 0.9);z-index:990;border-radius: 4px;"><center><button id="noGrind" type="button"> ОСТАНОВИТЬ </button></center></div>');
 	$('#noGrind').click(function setOptions(){
-		localStorage.setItem('stopGrind', 0);
-		localStorage.setItem('isOptGrind', 0);
 		document.title = "П Р Е К Р А Щ А Ю";
+		stopAll();
 		location.reload();
 		alert("Выращивание лошади прервано.");
 	});
@@ -24,9 +23,10 @@ $('body#global').append('<div class="stopMe" style="display:block;color:#ffffff;
 		var doLesson = localStorage.getItem('inpLessGrind');
 		var doCarrot = localStorage.getItem('inpCarrot');
 		var doKSK = localStorage.getItem('inpKSK');
+		var lenKSK = localStorage.getItem('inpKSKLen');
 		var maxAge = 0;
 		maxAge = parseInt(parseInt(selYY * 12) + parseInt(selMM));
-	}
+	} 
 	else{
 		document.title = "З А В Е Р Ш Е Н О";
 		$('body#global').append('<div class="grindPanel" style="display:block;color:#ffffff;position:fixed;width: 400px;height: 200px;top: 50%;margin-top: -100px;margin-left: -200px;padding: 20px;left: 50%;background-color:rgba(0, 0, 0, 0.9);z-index:990;border-radius: 4px;"></div>');
@@ -40,6 +40,13 @@ $('body#global').append('<div class="stopMe" style="display:block;color:#ffffff;
 								+'<option value="0">	Не записывать никогда				</option>'
 								+'<option value="1">	Всегда записывать в самый дешёвый	</option>'
 								+'<option value="2">	Записывать, если нет ОГ				</option>'
+							+'</select></p>');
+		$('.grindPanel').append('<p>Срок записи: <select id="inpKSKLen" style="">'
+								+'<option value="1 д">	1 день	</option>'
+								+'<option value="3 д">	3 дня	</option>'
+								+'<option value="10 д">	10 дней	</option>'
+								+'<option value="30 д">	30 дней	</option>'
+								+'<option value="60 д">	60 дней	</option>'
 							+'</select></p>');
 		$('.grindPanel').append('<p>Урок: <select id="inpLessGrind" style=" ">'
 								+'<option value="1">	Включён		</option>'
@@ -58,6 +65,7 @@ $('body#global').append('<div class="stopMe" style="display:block;color:#ffffff;
 		$("#inpLessGrind").val(localStorage.getItem('inpLessGrind'));
 		$("#inpCarrot").val(localStorage.getItem('inpCarrot'));
 		$("#inpKSK").val(localStorage.getItem('inpKSK'));
+		$("#inpKSKLen").val(localStorage.getItem('inpKSKLen'));
 		$("#inpActType").val(localStorage.getItem('inpActType'));
 	} else {
 		$("#inpYYgrind").val(0);
@@ -70,11 +78,13 @@ $('body#global').append('<div class="stopMe" style="display:block;color:#ffffff;
 		localStorage.setItem('inpLessGrind', $("#inpLessGrind option:selected").val());
 		localStorage.setItem('inpCarrot', $("#inpCarrot option:selected").val());
 		localStorage.setItem('inpKSK', $("#inpKSK option:selected").val());
+		localStorage.setItem('inpKSKLen', $("#inpKSKLen option:selected").val());
 		localStorage.setItem('inpActType', $("#inpActType option:selected").val());
 		
 		
 		localStorage.setItem('firstChevalId', chevalId);
 		localStorage.setItem('itIsFirstHorse', 'true');
+		localStorage.setItem('isHorsePage', true);
 
 		localStorage.setItem('isOptGrind', 1);
 		alert("Настройки применены. Нажмите 'Ок', чтобы запустить скрипт.\n\n Покиньте вкладку до завершения работы скрипта (он смущается и работает медленнее). Не заходите к другим лошадям. \n\n После завершения надпись на вкладке изменится на 'Завершено'.");
@@ -85,6 +95,46 @@ $('body#global').append('<div class="stopMe" style="display:block;color:#ffffff;
 	var growButton = 0;
 
 function pause(add){ return Math.floor(Math.random() * (200 - 120 + 1)) + 120 + add;}
+
+
+function stopAll(){
+	clearTimeout(mainSet);
+	clearTimeout(checkSet);
+	localStorage.setItem('stopGrind', 0);
+	localStorage.setItem('isOptGrind', 0);
+	localStorage.removeItem('itIsFirstHorse');
+	localStorage.removeItem('firstChevalId');
+	localStorage.removeItem('isHorsePage');
+}
+
+async function goToLink(href, pause) {
+	console.log("href -> " + href);
+	document.location.href = href;
+	sleep(pause(pause));	
+	console.log("done -> " + href);
+}
+
+function checkKSK() {
+	if (doKSK != 0 && $('#form-extends-money').length < 1) {
+		if(doKSK != 2 || !getMerch("Одеяло Гипноса")){
+			console.log("NEED KSK!");
+			localStorage.setItem('isHorsePage', false);
+			goToLink("https://www.lowadi.com/elevage/chevaux/centreInscription?id=" + chevalId, 1000);
+		}
+	} else {
+		localStorage.setItem('isHorsePage', true);
+		console.log("NOT NEED KSK!");
+	}
+}
+async function setKSK() {
+	$('thead > a:contains("' + lenKSK + '")').click();
+}
+
+function getMerch(b){
+	var c=0,d=$("#objects-body-content a");
+	if(0!==d.length)for(var e=0;e<d.length;e++)-1!==$("#objects-body-content a").eq(e).attr("data-tooltip").indexOf(b)&&(c=1);
+	return 0!=c;
+}
 
 function feed(oatsType = 0) {
     if (chevalAge > 4) {
@@ -124,8 +174,17 @@ function grow() {
     }
 }
 
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
+
 function nextHorse() {
-	location.href = $('#nav-next').attr('href');
+	console.log("next");
+	goToLink($('#nav-next').attr('href'), 1);
 }
 
 function needWash() {
@@ -190,64 +249,51 @@ function nextAct(){
 	}
 }
 
-function progon() {
-    if (location.href.indexOf('chevaux/cheval?id') !== -1 && localStorage.getItem('isOptGrind') !== '0') {
-		if(chevalAge < 6) {
-			if(needMilk()) {
-				$('#boutonAllaiter').click();
-			} else if(needWash()){
-				$('#boutonPanser').click();
-			} else if (needSleep()) {
-                $('#boutonCoucher').click();
-            } else {
-                nextAct();
-            }
-/* 		} else if (chevalAge < maxAge) {
-            if (needWash()) {
-                $('#boutonPanser').click();
-            } else if (needLesson()) {
-                $('#mission-wrapper a').click();
-            } else if (needFeed()) {
-                feed();
-            } else if (needSleep()) {
-                $('#boutonCoucher').click();
-            } else {
-                grow();
-            } */
-        } else {
-			console.log('actType ' + localStorage.getItem('inpActType'));
-			console.log('isOptGrind ' + localStorage.getItem('isOptGrind'));
-			console.log('itIsFirstHorse ' + localStorage.getItem('itIsFirstHorse'));
-			console.log('firstChevalId ' + localStorage.getItem('firstChevalId'));
-			console.log('chevalId ' + chevalId);
-			
-			
-			if(localStorage.getItem('inpActType') == '0') {
-				if(localStorage.getItem('firstChevalId') !== chevalId || localStorage.getItem('itIsFirstHorse') == 'true') {
-					localStorage.setItem('itIsFirstHorse', 'false');
-					nextHorse();
+async function progon() {
+		if (location.href.indexOf('/elevage/chevaux/centreInscription?id=') !== -1) {
+			setKSK();
+		} else if (location.href.indexOf('chevaux/cheval?id') !== -1 && localStorage.getItem('isOptGrind') !== '0') {
+			checkKSK();
+			if(chevalAge < 6) {
+				if(needMilk()) {
+					$('#boutonAllaiter').click();
+				} else if(needWash()){
+					$('#boutonPanser').click();
+				} else if (needSleep()) {
+					$('#boutonCoucher').click();
 				} else {
-					alert('Прогон окончен!');
-					clearTimeout(mainSet);
-					clearTimeout(checkSet);
-					localStorage.setItem('stopGrind', 1);
-					localStorage.setItem('isOptGrind', 0);
+					nextAct();
 				}
-			} else {
-				alert('Возраст максимален!');
-				clearTimeout(mainSet);
-				clearTimeout(checkSet);
-				localStorage.setItem('stopGrind', 1);
-				localStorage.setItem('isOptGrind', 0);
-				localStorage.removeItem('itIsFirstHorse');
-				localStorage.removeItem('firstChevalId');
+	/* 		} else if (chevalAge < maxAge) {
+				if (needWash()) {
+					$('#boutonPanser').click();
+				} else if (needLesson()) {
+					$('#mission-wrapper a').click();
+				} else if (needFeed()) {
+					feed();
+				} else if (needSleep()) {
+					$('#boutonCoucher').click();
+				} else {
+					grow();
+				} */
+			} else if(localStorage.getItem('isHorsePage') == "true") {
+				if(localStorage.getItem('inpActType') == '0') {
+					if(localStorage.getItem('firstChevalId') == chevalId && localStorage.getItem('itIsFirstHorse') == 'false') {
+						alert('Прогон окончен!');
+						stopAll();
+					} else {
+						localStorage.setItem('itIsFirstHorse', 'false');
+						nextHorse();
+					}
+				} else {
+					alert('Возраст максимален!');
+					stopAll();
+				}
 			}
-        }
-    }
-    else if (location.href.indexOf('/elevage/chevaux/?elevage=') !== -1) {
-    	history.go(-1);
-    	pause(600000);
-    }
+		} else if (location.href.indexOf('/elevage/chevaux/?elevage=') !== -1) {
+			history.go(-1);
+			pause(600000);
+		}
 }
 var checkSet = setTimeout(function run1() {
     growButton = 0;
