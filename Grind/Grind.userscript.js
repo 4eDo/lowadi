@@ -286,20 +286,62 @@ function nextAct(){
 
 function game(time){ // 2h = 2h, max = maximum, m-1 = max - 1h
 	document.title = "Игра";
-	let toPlay;
-	switch(time){
-		case "2h":
-			toPlay = 4;
+	goSlidebar(time, "centerPlaySlider", "formCenterPlaySubmit");
+}
+
+function walk(time, type){ // 2h = 2h, max = maximum, m-1 = max - 1h
+	document.title = "Прогулка";
+	//  $('#walk-foret-dressage').text() == '0' - ЛЕС окончен
+	//  $('#walk-montagne-vitesse').text() == '0' - ГОРЫ окончены
+	//  $('#walk-plage-competenceTo').text() == '0' - ПЛЯЖ окончен
+	switch(type){
+		case "Лес":
+			goSlidebar(time, "walkforetSlider", "walk-foret-submit");
 		break;
-		case "max":
-			toPlay = $("#centerPlaySlider li.disabled").length > 0 ? $("#centerPlaySlider li.disabled").first().attr("data-number") - 1 : 20;
+		case "Горы":
+			goSlidebar(time, "walkmontagneSlider", "walk-montagne-submit");
 		break;
-		case "m-1":
-			toPlay = $("#centerPlaySlider li.disabled").length > 0 ? $("#centerPlaySlider li.disabled").first().attr("data-number") - 3 : 18;
+		case "Пляж":
+			//TODO: настроить "ИЗ ЧЕГО" и "ВО ЧТО"
+			// $("#walk-plage-form select:eq(0) option[value='trot']").attr("selected", "selected"); - УЛУЧШИТЬ
+			// $("#walk-plage-form select:eq(1) option[value='trot']").attr("selected", "selected"); - УХУДШИТЬ
+			goSlidebar(time, "walkplageSlider", "walk-plage-submit");
 		break;
 	}
-	$('#centerPlaySlider li:eq(' + toPlay + ')').click();
-	$('#formCenterPlaySubmit').click();
+}
+
+async function training(time){ // 2h = 2h, max = maximum, m-1 = max - 1h
+	document.title = "Тренировка";
+	currActive = array;
+	while(type < currActive.length && $('#' + currActive[type] + 'Gain').text() == '0') {
+		type ++;
+	}
+	Тренировка завершена!
+	switch(type){
+		case "Выносливость": goSlidebar(time, "trainingEnduranceSlider", "training-endurance-submit"); break;
+		case "Скорость": goSlidebar(time, "trainingVitesseSlider", "training-vitesse-submit"); break;
+		case "Выездка": goSlidebar(time, "trainingDressageSlider", "training-dressage-submit"); break;
+		case "Галоп": goSlidebar(time, "trainingGalopSlider", "training-galop-submit"); break;
+		case "Рысь": goSlidebar(time, "trainingTrotSlider", "training-trot-submit"); break;
+		case "Прыжки": goSlidebar(time, "trainingSautSlider", "training-saut-submit"); break;
+	}
+}
+
+function goSlidebar(time, slidebarId, slidebarSubmitId){ // 2h = 2h, max = maximum, m-1 = max - 1h
+	let toRun;
+	switch(time){
+		case "2h":
+			toRun = 4;
+		break;
+		case "max":
+			toRun = $("#" + slidebarId + " li.disabled").length > 0 ? $("#" + slidebarId + " li.disabled").first().attr("data-number") - 1 : 20;
+		break;
+		case "m-1":
+			toRun = $("#" + slidebarId + " li.disabled").length > 0 ? $("#" + slidebarId + " li.disabled").first().attr("data-number") - 3 : 18;
+		break;
+	}
+	$('#' + slidebarId + ' li:eq(' + toRun + ')').click();
+	$('#' + slidebarSubmitId).click();
 }
 
 async function progon() {
