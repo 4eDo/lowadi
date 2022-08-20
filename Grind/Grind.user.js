@@ -7,8 +7,6 @@
 // @match        https://www.lowadi.com/elevage/chevaux/*
 // ==/UserScript==
 
-//Настройки
-
 $('body#global').append('<div class="stopMe" style="display:block;color:#ffffff;position:fixed;width: 100px;height: 20px;top: 30px;padding: 5px;left: 10px;background-color:rgba(128, 0, 0, 0.9);z-index:990;border-radius: 4px;"><center><button id="noGrind" type="button"> ОСТАНОВИТЬ </button></center></div>');
 	$('#noGrind').click(function setOptions(){
 		document.title = "П Р Е К Р А Щ А Ю";
@@ -18,18 +16,15 @@ $('body#global').append('<div class="stopMe" style="display:block;color:#ffffff;
 	});
 
 	if(localStorage.getItem('isOptGrind') == 1){
-		//var selYY = localStorage.getItem('inpYYgrind');
-		//var selMM = localStorage.getItem('inpMMgrind');
-		var doLesson = 1; //localStorage.getItem('inpLessGrind');
-		var doCarrot = 1; //localStorage.getItem('inpCarrot');
-		var doKSK = 2; //localStorage.getItem('inpKSK');
-		var lenKSK = 0; // localStorage.getItem('inpKSKLen');
+		
+		var doLesson = 1;
+		var doCarrot = 1;
+		var doKSK = 2;
+		var lenKSK = 0;
 		var typeKSK = localStorage.getItem('inpKskType');
 		var ages = typeKSK == 'f'		/** 0 = лес, 1 = выездка, 2 = прыжки, 3 = кросс, 4 = выносливость, 5 = горы */
 			? [34, 44, 58, 68, 84, 118]
 			: [52, 62, 76, 86, 102, 120];
-		//var maxAge = 0;
-		//maxAge = parseInt(parseInt(selYY * 12) + parseInt(selMM));
 	}
 	else{
 		document.title = "З А В Е Р Ш Е Н О";
@@ -39,62 +34,24 @@ $('body#global').append('<div class="stopMe" style="display:block;color:#ffffff;
 								+'<option value="1">	Кач одной лошади	</option>'
 								+'<option value="0">	Прогон табуна		</option>'
 							+'</select></p>');
-		$('.grindPanel').append('<p>КТип КСК: <select id="inpKskType" style=" ">'
+		$('.grindPanel').append('<p>Тип КСК: <select id="inpKskType" style=" ">'
 								+'<option value="f">	Лес	</option>'
 								+'<option value="m">	Горы</option>'
 							+'</select></p>');
-		// $('.grindPanel').append('<p>После какого возраста не трогать: <input id="inpYYgrind" type="number" min="0" value="0">лет  <input id="inpMMgrind" type="number" min="0" value="0">мес. </p>');
-/* 		$('.grindPanel').append('<p>Запись в КСК: <select id="inpKSK" style="">'
-								+'<option value="0">	Не записывать никогда				</option>'
-								+'<option value="1">	Всегда записывать в самый дешёвый	</option>'
-								+'<option value="2">	Записывать, если нет ОГ				</option>'
-							+'</select></p>');
-		$('.grindPanel').append('<p>Срок записи: <select id="inpKSKLen" style="">'
-								+'<option value="1 д">	1 день	</option>'
-								+'<option value="3 д">	3 дня	</option>'
-								+'<option value="10 д">	10 дней	</option>'
-								+'<option value="30 д">	30 дней	</option>'
-								+'<option value="60 д">	60 дней	</option>'
-							+'</select></p>'); */
-		/* $('.grindPanel').append('<p>Урок: <select id="inpLessGrind" style=" ">'
-								+'<option value="1">	Включён		</option>'
-								+'<option value="0">	Выключен	</option>'
-							+'</select></p>');
- 		$('.grindPanel').append('<p>Морковь: <select id="inpCarrot" style=" ">'
-								+'<option value="1">	Давать		</option>'
-								+'<option value="0">	Не давать	</option>'
-							+'</select></p>'); */
 		$('.grindPanel').append('</br><center><button id="submGrind" type="button"> Применить и запустить </button></center>');
 	}
 
 	if (localStorage.getItem('isOptGrind') !== null) {
-	//	$("#inpYYgrind").val(localStorage.getItem('inpYYgrind'));
-	//	$("#inpMMgrind").val(localStorage.getItem('inpMMgrind'));
-	//	$("#inpLessGrind").val(localStorage.getItem('inpLessGrind'));
-	//	$("#inpCarrot").val(localStorage.getItem('inpCarrot'));
-	//	$("#inpKSK").val(localStorage.getItem('inpKSK'));
-	//	$("#inpKSKLen").val(localStorage.getItem('inpKSKLen'));
 		$("#inpKskType").val(localStorage.getItem('inpKskType'));
 		$("#inpActType").val(localStorage.getItem('inpActType'));
-	} else {
-	//	$("#inpYYgrind").val(0);
-	//	$("#inpMMgrind").val(0);
-	}
+	} else {}
 
 	$('#submGrind').click(function setOptions(){
-	//	localStorage.setItem('inpYYgrind', $("#inpYYgrind").val());
-	//	localStorage.setItem('inpMMgrind', $("#inpMMgrind").val());
-	//	localStorage.setItem('inpLessGrind', $("#inpLessGrind option:selected").val());
-	//	localStorage.setItem('inpCarrot', $("#inpCarrot option:selected").val());
-	//	localStorage.setItem('inpKSK', $("#inpKSK option:selected").val());
-	//	localStorage.setItem('inpKSKLen', $("#inpKSKLen option:selected").val());
 		localStorage.setItem('inpKskType', $("#inpKskType option:selected").val());
 		localStorage.setItem('inpActType', $("#inpActType option:selected").val());
 
-
 		localStorage.setItem('firstChevalId', chevalId);
 		localStorage.setItem('itIsFirstHorse', 'true');
-		localStorage.setItem('isHorsePage', true);
 
 		localStorage.setItem('isOptGrind', 1);
 		alert("Настройки применены. Нажмите 'Ок', чтобы запустить скрипт.\n\n Покиньте вкладку до завершения работы скрипта (он смущается и работает медленнее). Не заходите к другим лошадям. \n\n После завершения надпись на вкладке изменится на 'Завершено'.");
@@ -114,14 +71,6 @@ function stopAll(){
 	localStorage.setItem('isOptGrind', 0);
 	localStorage.removeItem('itIsFirstHorse');
 	localStorage.removeItem('firstChevalId');
-	localStorage.removeItem('isHorsePage');
-}
-
-async function goToLink(href, pause) {
-	console.log("href -> " + href);
-	document.location.href = href;
-	sleepJS(pause(pause));
-	console.log("done -> " + href);
 }
 
 function checkKSK() {
@@ -137,16 +86,8 @@ function checkKSK() {
 				location.reload();
 				alert("ЗАПИШИ МЕНЯ В КСК");
 			}
-//			localStorage.setItem('isHorsePage', false);
-//			goToLink("https://www.lowadi.com/elevage/chevaux/centreInscription?id=" + chevalId, 1000);
 		}
-	} else {
-		localStorage.setItem('isHorsePage', true);
-		// console.log("NOT NEED KSK!");
 	}
-}
-async function setKSK() {
-	$('thead > a:contains("' + lenKSK + '")').click();
 }
 
 function getMerch(b){
@@ -195,19 +136,10 @@ function grow() {
     }
 }
 
-function sleepJS(milliseconds) {
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
-}
-
 function nextHorse() {
 	console.log("next");
 	goToLink($('#nav-next').attr('href'), 1);
 }
-
 
 function needFeed() {
 		var numbers = $('.float-right.section-fourrage.section-fourrage-quantity').text().trim().split(' / ');
@@ -244,22 +176,6 @@ function needLesson() {
 			} else return true;
 		} else return false;
 	}
-}
-
-async function needGrind()	{
-	setSlidebar('2h', "walkforetSlider");
-	setSlidebar('2h', "trainingDressageSlider");
-	setSlidebar('2h', "trainingSautSlider");
-	if(		$('#walk-foret-dressage').text() != '0'){ console.log($('#walk-foret-dressage').text()); return true; }
-	else if($('#dressageGain').text() != '0'){ console.log($('#dressageGain').text()); return true; }
-	else if($('#sautGain').text() != '0'){ console.log($('#sautGain').text()); return true; }
-	else return false;
-}
-
-function getGrind() {
-	if(setSlidebar('2h', "walkforetSlider") && $('#walk-foret-dressage').text() != '0'){ return "Лес"; }
-	else if(setSlidebar('2h', "trainingDressageSlider") && $('#dressageGain').text() != '0'){ return "Выездка"; }
-	else if(setSlidebar('2h', "trainingSautSlider") && $('#sautGain').text() != '0'){ return "Прыжки"; }
 }
 
 function needSleep()	{ return isDisabled('boutonCoucher');}
@@ -299,26 +215,6 @@ function game(time){ // 2h = 2h, max = maximum, m-1 = max - 1h
 	goSlidebar(time, "centerPlaySlider", "formCenterPlaySubmit");
 }
 
-
-function switchTrain(time) {
-	let key = getGrind();
-	switch(key){
-		case "Лес":
-		case "Горы":
-		case "Пляж":
-			walk(time, key);
-		break;
-		
-		case "Выносливость":
-		case "Скорость":
-		case "Выездка":
-		case "Галоп":
-		case "Рысь":
-		case "Прыжки":
-			training(time, key);
-		break;
-	}
-}
 function walk(time, type){ // 2h = 2h, max = maximum, m-1 = max - 1h
 	document.title = "Прогулка";
 
@@ -330,9 +226,6 @@ function walk(time, type){ // 2h = 2h, max = maximum, m-1 = max - 1h
 			goSlidebar(time, "walkmontagneSlider", "walk-montagne-submit");
 		break;
 		case "Пляж":
-			//TODO: настроить "ИЗ ЧЕГО" и "ВО ЧТО"
-			// $("#walk-plage-form select:eq(0) option[value='trot']").attr("selected", "selected"); - УЛУЧШИТЬ
-			// $("#walk-plage-form select:eq(1) option[value='trot']").attr("selected", "selected"); - УХУДШИТЬ
 			goSlidebar(time, "walkplageSlider", "walk-plage-submit");
 		break;
 	}
@@ -340,11 +233,6 @@ function walk(time, type){ // 2h = 2h, max = maximum, m-1 = max - 1h
 
 async function training(time, type){ // 2h = 2h, max = maximum, m-1 = max - 1h
 	document.title = "Тренировка";
-	// currActive = array;
-	/* while(type < currActive.length && $('#' + currActive[type] + 'Gain').text() == '0') {
-		type ++;
-	} */
-	// Тренировка завершена!
 	switch(type){
 		case "Выносливость": goSlidebar(time, "trainingEnduranceSlider", "training-endurance-submit"); break;
 		case "Скорость": goSlidebar(time, "trainingVitesseSlider", "training-vitesse-submit"); break;
@@ -563,7 +451,7 @@ async function progon() {
 				} else {
 					nextAct();
 				}
-			} else if(localStorage.getItem('isHorsePage') == "true") {
+			} else {
 				if(localStorage.getItem('inpActType') == '0') {
 					if(localStorage.getItem('firstChevalId') == chevalId && localStorage.getItem('itIsFirstHorse') == 'false') {
 						alert('Прогон окончен!');
