@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Кач-прогон
 // @version      1.0
-// @description  Игры для жеребёнка или табуна. ПРИ ВЫПОЛНЕНИИ НЕ СИДИТЕ НА СТРАНИЦЕ, ОТ ЭТОГО СКРИПТ ТОРМОЗИТ! И НЕ ЗАХОДИТЕ К ДРУГИМ ЛОШАДЯМ!
+// @description  ПРИ ВЫПОЛНЕНИИ НЕ СИДИТЕ НА СТРАНИЦЕ, ОТ ЭТОГО СКРИПТ ТОРМОЗИТ! И НЕ ЗАХОДИТЕ К ДРУГИМ ЛОШАДЯМ!
 // @namespace    http://tampermonkey.net/
 // @author       4eDo (https://github.com/4eDo/lowadi)
 // @match        https://www.lowadi.com/elevage/chevaux/*
@@ -18,15 +18,19 @@ $('body#global').append('<div class="stopMe" style="display:block;color:#ffffff;
 	});
 
 	if(localStorage.getItem('isOptGrind') == 1){
-		var selYY = localStorage.getItem('inpYYgrind');
-		var selMM = localStorage.getItem('inpMMgrind');
-		var doLesson = localStorage.getItem('inpLessGrind');
-		var doCarrot = localStorage.getItem('inpCarrot');
+		//var selYY = localStorage.getItem('inpYYgrind');
+		//var selMM = localStorage.getItem('inpMMgrind');
+		var doLesson = 1; //localStorage.getItem('inpLessGrind');
+		var doCarrot = 1; //localStorage.getItem('inpCarrot');
 		var doKSK = 2; //localStorage.getItem('inpKSK');
 		var lenKSK = 0; // localStorage.getItem('inpKSKLen');
-		var maxAge = 0;
-		maxAge = parseInt(parseInt(selYY * 12) + parseInt(selMM));
-	} 
+		var typeKSK = localStorage.getItem('inpKskType');
+		var ages = typeKSK == 'f'		/** 0 = лес, 1 = выездка, 2 = прыжки, 3 = кросс, 4 = выносливость, 5 = горы */
+			? [34, 44, 58, 68, 84, 118]
+			: [52, 62, 76, 86, 102, 120];
+		//var maxAge = 0;
+		//maxAge = parseInt(parseInt(selYY * 12) + parseInt(selMM));
+	}
 	else{
 		document.title = "З А В Е Р Ш Е Н О";
 		$('body#global').append('<div class="grindPanel" style="display:block;color:#ffffff;position:fixed;width: 400px;height: 200px;top: 50%;margin-top: -100px;margin-left: -200px;padding: 20px;left: 50%;background-color:rgba(0, 0, 0, 0.9);z-index:990;border-radius: 4px;"></div>');
@@ -35,7 +39,11 @@ $('body#global').append('<div class="stopMe" style="display:block;color:#ffffff;
 								+'<option value="1">	Кач одной лошади	</option>'
 								+'<option value="0">	Прогон табуна		</option>'
 							+'</select></p>');
-		$('.grindPanel').append('<p>После какого возраста не трогать: <input id="inpYYgrind" type="number" min="0" value="0">лет  <input id="inpMMgrind" type="number" min="0" value="0">мес. </p>');
+		$('.grindPanel').append('<p>КТип КСК: <select id="inpKskType" style=" ">'
+								+'<option value="f">	Лес	</option>'
+								+'<option value="m">	Горы</option>'
+							+'</select></p>');
+		// $('.grindPanel').append('<p>После какого возраста не трогать: <input id="inpYYgrind" type="number" min="0" value="0">лет  <input id="inpMMgrind" type="number" min="0" value="0">мес. </p>');
 /* 		$('.grindPanel').append('<p>Запись в КСК: <select id="inpKSK" style="">'
 								+'<option value="0">	Не записывать никогда				</option>'
 								+'<option value="1">	Всегда записывать в самый дешёвый	</option>'
@@ -48,40 +56,42 @@ $('body#global').append('<div class="stopMe" style="display:block;color:#ffffff;
 								+'<option value="30 д">	30 дней	</option>'
 								+'<option value="60 д">	60 дней	</option>'
 							+'</select></p>'); */
-		$('.grindPanel').append('<p>Урок: <select id="inpLessGrind" style=" ">'
+		/* $('.grindPanel').append('<p>Урок: <select id="inpLessGrind" style=" ">'
 								+'<option value="1">	Включён		</option>'
 								+'<option value="0">	Выключен	</option>'
 							+'</select></p>');
  		$('.grindPanel').append('<p>Морковь: <select id="inpCarrot" style=" ">'
 								+'<option value="1">	Давать		</option>'
 								+'<option value="0">	Не давать	</option>'
-							+'</select></p>');
+							+'</select></p>'); */
 		$('.grindPanel').append('</br><center><button id="submGrind" type="button"> Применить и запустить </button></center>');
 	}
 
 	if (localStorage.getItem('isOptGrind') !== null) {
-		$("#inpYYgrind").val(localStorage.getItem('inpYYgrind'));
-		$("#inpMMgrind").val(localStorage.getItem('inpMMgrind'));
-		$("#inpLessGrind").val(localStorage.getItem('inpLessGrind'));
-		$("#inpCarrot").val(localStorage.getItem('inpCarrot'));
+	//	$("#inpYYgrind").val(localStorage.getItem('inpYYgrind'));
+	//	$("#inpMMgrind").val(localStorage.getItem('inpMMgrind'));
+	//	$("#inpLessGrind").val(localStorage.getItem('inpLessGrind'));
+	//	$("#inpCarrot").val(localStorage.getItem('inpCarrot'));
 	//	$("#inpKSK").val(localStorage.getItem('inpKSK'));
 	//	$("#inpKSKLen").val(localStorage.getItem('inpKSKLen'));
+		$("#inpKskType").val(localStorage.getItem('inpKskType'));
 		$("#inpActType").val(localStorage.getItem('inpActType'));
 	} else {
-		$("#inpYYgrind").val(0);
-		$("#inpMMgrind").val(0);
+	//	$("#inpYYgrind").val(0);
+	//	$("#inpMMgrind").val(0);
 	}
 
 	$('#submGrind').click(function setOptions(){
-		localStorage.setItem('inpYYgrind', $("#inpYYgrind").val());
-		localStorage.setItem('inpMMgrind', $("#inpMMgrind").val());
-		localStorage.setItem('inpLessGrind', $("#inpLessGrind option:selected").val());
-		localStorage.setItem('inpCarrot', $("#inpCarrot option:selected").val());
+	//	localStorage.setItem('inpYYgrind', $("#inpYYgrind").val());
+	//	localStorage.setItem('inpMMgrind', $("#inpMMgrind").val());
+	//	localStorage.setItem('inpLessGrind', $("#inpLessGrind option:selected").val());
+	//	localStorage.setItem('inpCarrot', $("#inpCarrot option:selected").val());
 	//	localStorage.setItem('inpKSK', $("#inpKSK option:selected").val());
 	//	localStorage.setItem('inpKSKLen', $("#inpKSKLen option:selected").val());
+		localStorage.setItem('inpKskType', $("#inpKskType option:selected").val());
 		localStorage.setItem('inpActType', $("#inpActType option:selected").val());
-		
-		
+
+
 		localStorage.setItem('firstChevalId', chevalId);
 		localStorage.setItem('itIsFirstHorse', 'true');
 		localStorage.setItem('isHorsePage', true);
@@ -110,7 +120,7 @@ function stopAll(){
 async function goToLink(href, pause) {
 	console.log("href -> " + href);
 	document.location.href = href;
-	sleep(pause(pause));	
+	sleepJS(pause(pause));
 	console.log("done -> " + href);
 }
 
@@ -118,7 +128,7 @@ function checkKSK() {
 	if (doKSK != 0 && $('#form-extends-money').length < 1 && chevalAge > 5) {
 		if(doKSK != 2 || !getMerch("Одеяло Гипноса")){
 			//console.log("NEED KSK!");
-			
+
 			if(localStorage.getItem('inpActType') == 0){
 				nextHorse();
 			} else {
@@ -180,12 +190,12 @@ function feed(oatsType = 0) {
 function grow() {
     if (growButton == 0) {
 		document.title = "ОР";
-        $('#night-wrapper button:contains("Подтвердить")').click();
+        $('#night-tab-age button').click();
         growButton = 1;
     }
 }
 
-function sleep(milliseconds) {
+function sleepJS(milliseconds) {
   const date = Date.now();
   let currentDate = null;
   do {
@@ -198,9 +208,6 @@ function nextHorse() {
 	goToLink($('#nav-next').attr('href'), 1);
 }
 
-function needWash() {
-	return isDisabled('boutonPanser');
-}
 
 function needFeed() {
 		var numbers = $('.float-right.section-fourrage.section-fourrage-quantity').text().trim().split(' / ');
@@ -224,7 +231,6 @@ function needFeed() {
 				return false;
 			} else return true;
 		}
-	
 }
 
 function needLesson() {
@@ -240,41 +246,45 @@ function needLesson() {
 	}
 }
 
-function needSleep() {
-	return isDisabled('boutonCoucher');
+async function needGrind()	{
+	setSlidebar('2h', "walkforetSlider");
+	setSlidebar('2h', "trainingDressageSlider");
+	setSlidebar('2h', "trainingSautSlider");
+	if(		$('#walk-foret-dressage').text() != '0'){ console.log($('#walk-foret-dressage').text()); return true; }
+	else if($('#dressageGain').text() != '0'){ console.log($('#dressageGain').text()); return true; }
+	else if($('#sautGain').text() != '0'){ console.log($('#sautGain').text()); return true; }
+	else return false;
 }
 
-function needMilk() {
-	return isDisabled('boutonAllaiter');
-}
-function needDrink() {
-	return isDisabled('boutonBoire');
-}
-
-function needCarrot() {
-	return isDisabled('boutonCarotte') && doCarrot == 1;
-}
-function needCare() {
-	return isDisabled('boutonCaresser');
+function getGrind() {
+	if(setSlidebar('2h', "walkforetSlider") && $('#walk-foret-dressage').text() != '0'){ return "Лес"; }
+	else if(setSlidebar('2h', "trainingDressageSlider") && $('#dressageGain').text() != '0'){ return "Выездка"; }
+	else if(setSlidebar('2h', "trainingSautSlider") && $('#sautGain').text() != '0'){ return "Прыжки"; }
 }
 
-function needShortGame() {
-	return chevalEnergie > 90;
-}
-function needLongGame() {
-	return chevalEnergie < 90 && chevalEnergie > 70 && needCare();
-}
+function needSleep()	{ return isDisabled('boutonCoucher');}
+function needMilk()		{ return isDisabled('boutonAllaiter');}
+function needDrink()	{ return isDisabled('boutonBoire');}
+function needCarrot()	{ return isDisabled('boutonCarotte') && doCarrot == 1;}
+function needCare() 	{ return isDisabled('boutonCaresser');}
+function needShortGame() {return chevalEnergie > 90;}
+function needLongGame() { return chevalEnergie < 90 && chevalEnergie > 70 && needCare();}
+function needWash()		{ return isDisabled('boutonPanser');}
+
+function needShortTrain() { return chevalEnergie > 90 && needDrink();}
+function needLongTrain()  { return chevalEnergie > 20 && !needDrink() && needCare();}
 
 function isDisabled(buttonId){
 	return !$('#' + buttonId).hasClass('action-disabled');
 }
 
-function milk() { $('#boutonAllaiter').click(); document.title = "Молоко";}
-function wash() { $('#boutonPanser').click(); document.title = "Чистка";}
-function sleep() { $('#boutonCoucher').click(); document.title = "Сон";}
-function drink() { $('#boutonBoire').click(); document.title = "Вода";}
-function care() { $('#boutonCaresser').click(); document.title = "Ласка";}
-function carrot() { $('#boutonCarotte').click(); document.title = "Морковь";}
+function milk()		{ $('#boutonAllaiter').click(); document.title = "Молоко";}
+function wash() 	{ $('#boutonPanser').click(); document.title = "Чистка";}
+function sleep() 	{ $('#boutonCoucher').click(); document.title = "Сон";}
+function drink() 	{ $('#boutonBoire').click(); document.title = "Вода";}
+function care() 	{ $('#boutonCaresser').click(); document.title = "Ласка";}
+function carrot() 	{ $('#boutonCarotte').click(); document.title = "Морковь";}
+function lesson() 	{ $('#mission-wrapper a').click(); document.title = "Урок"; }
 
 function nextAct(){
 	if(localStorage.getItem('inpActType') == 0){
@@ -289,11 +299,29 @@ function game(time){ // 2h = 2h, max = maximum, m-1 = max - 1h
 	goSlidebar(time, "centerPlaySlider", "formCenterPlaySubmit");
 }
 
+
+function switchTrain(time) {
+	let key = getGrind();
+	switch(key){
+		case "Лес":
+		case "Горы":
+		case "Пляж":
+			walk(time, key);
+		break;
+		
+		case "Выносливость":
+		case "Скорость":
+		case "Выездка":
+		case "Галоп":
+		case "Рысь":
+		case "Прыжки":
+			training(time, key);
+		break;
+	}
+}
 function walk(time, type){ // 2h = 2h, max = maximum, m-1 = max - 1h
 	document.title = "Прогулка";
-	//  $('#walk-foret-dressage').text() == '0' - ЛЕС окончен
-	//  $('#walk-montagne-vitesse').text() == '0' - ГОРЫ окончены
-	//  $('#walk-plage-competenceTo').text() == '0' - ПЛЯЖ окончен
+
 	switch(type){
 		case "Лес":
 			goSlidebar(time, "walkforetSlider", "walk-foret-submit");
@@ -310,13 +338,13 @@ function walk(time, type){ // 2h = 2h, max = maximum, m-1 = max - 1h
 	}
 }
 
-async function training(time){ // 2h = 2h, max = maximum, m-1 = max - 1h
+async function training(time, type){ // 2h = 2h, max = maximum, m-1 = max - 1h
 	document.title = "Тренировка";
-	currActive = array;
-	while(type < currActive.length && $('#' + currActive[type] + 'Gain').text() == '0') {
+	// currActive = array;
+	/* while(type < currActive.length && $('#' + currActive[type] + 'Gain').text() == '0') {
 		type ++;
-	}
-	Тренировка завершена!
+	} */
+	// Тренировка завершена!
 	switch(type){
 		case "Выносливость": goSlidebar(time, "trainingEnduranceSlider", "training-endurance-submit"); break;
 		case "Скорость": goSlidebar(time, "trainingVitesseSlider", "training-vitesse-submit"); break;
@@ -328,6 +356,12 @@ async function training(time){ // 2h = 2h, max = maximum, m-1 = max - 1h
 }
 
 function goSlidebar(time, slidebarId, slidebarSubmitId){ // 2h = 2h, max = maximum, m-1 = max - 1h
+	if(setSlidebar(time, slidebarId)) {
+		$('#' + slidebarSubmitId).click();
+	}
+}
+
+function setSlidebar(time, slidebarId) {
 	let toRun;
 	switch(time){
 		case "2h":
@@ -341,7 +375,8 @@ function goSlidebar(time, slidebarId, slidebarSubmitId){ // 2h = 2h, max = maxim
 		break;
 	}
 	$('#' + slidebarId + ' li:eq(' + toRun + ')').click();
-	$('#' + slidebarSubmitId).click();
+	
+	return true;
 }
 
 async function progon() {
@@ -392,18 +427,18 @@ async function progon() {
 				} else {
 					nextAct();
 				}
-			/* }  else if (chevalAge < 24) {
-				/** До открытия тренировок * /
+			}  else if (chevalAge < 24) {
+				/** До открытия уроков */
 				if (needWash()) {
 					wash();
-				} else if(needShortGame()) {
-					game('2h');
+				} else if(needShortTrain()) {
+					walk('2h', "Лес");
 				} else if (needDrink()) {
 					drink();
-				} else if (needFeed()) {
-					feed();
-				} else if (needLongGame()) {
-					doCarrot == 1 ? game('max') : game('m-1');
+				} else if (needFeed() && needLongTrain()) {
+					feed("training");
+				} else if (needLongTrain()) {
+					doCarrot == 1 ? walk('max', "Лес") : walk('m-1', "Лес");
 				} else if (needCare()) {
 					care();
 				} else if (needCarrot()) {
@@ -412,7 +447,122 @@ async function progon() {
 					sleep();
 				} else {
 					nextAct();
-				} */
+				}
+			}  else if (chevalAge < ages[0]) {
+				/** Лес */
+				if (needWash()) {
+					wash();
+				} else if(needShortTrain()) {
+					lesson();
+				} else if (needDrink()) {
+					drink();
+				} else if (needFeed() && needLongTrain()) {
+					feed("training");
+				} else if (needLongTrain()) {
+					walk('max', "Лес");
+				} else if (needCare()) {
+					care();
+				} else if (needCarrot()) {
+					carrot();
+				} else if (needSleep()) {
+					sleep();
+				} else {
+					nextAct();
+				}
+			}  else if (chevalAge < ages[1]) {
+				/** Выездка */
+				if (needWash()) {
+					wash();
+				} else if(needShortTrain()) {
+					lesson();
+				} else if (needDrink()) {
+					drink();
+				} else if (needFeed() && needLongTrain()) {
+					feed("training");
+				} else if (needLongTrain()) {
+					training('max', "Выездка");
+				} else if (needCare()) {
+					care();
+				} else if (needCarrot()) {
+					carrot();
+				} else if (needSleep()) {
+					sleep();
+				} else {
+					nextAct();
+				}
+			}  else if (chevalAge < ages[2]) {
+				/** Прыжки */
+				if (needWash()) {
+					wash();
+				} else if(needShortTrain()) {
+					lesson();
+				} else if (needDrink()) {
+					drink();
+				} else if (needFeed() && needLongTrain()) {
+					feed("training");
+				} else if (needLongTrain()) {
+					training('max', "Прыжки");
+				} else if (needCare()) {
+					care();
+				} else if (needCarrot()) {
+					carrot();
+				} else if (needSleep()) {
+					sleep();
+				} else {
+					nextAct();
+				}
+			}  else if (chevalAge > (ages[2] - 1) && chevalAge < ages[3]) {
+				/** Соревнования */
+				if(localStorage.getItem('inpActType') == 0){
+					nextHorse();
+				} else {
+					document.title = "ЗАПИШИ МЕНЯ НА КРОСС";
+					stopAll();
+					location.reload();
+					alert("Я не умею записывать на соревнования!\n Запиши лошадь сам!\n НЕ дольше нужного, только до зажирнения!");
+				}
+			}  else if (chevalAge < ages[4]) {
+				/** Выносливость */
+				if (needWash()) {
+					wash();
+				} else if(needShortTrain()) {
+					lesson();
+				} else if (needDrink()) {
+					drink();
+				} else if (needFeed() && needLongTrain()) {
+					feed("training");
+				} else if (needLongTrain()) {
+					training('max', "Выносливость");
+				} else if (needCare()) {
+					care();
+				} else if (needCarrot()) {
+					carrot();
+				} else if (needSleep()) {
+					sleep();
+				} else {
+					nextAct();
+				}
+			}  else if (chevalAge < ages[5]) {
+				/** Горы */
+				if (needWash()) {
+					wash();
+				} else if(needShortTrain()) {
+					lesson();
+				} else if (needDrink()) {
+					drink();
+				} else if (needFeed() && needLongTrain()) {
+					feed("training");
+				} else if (needLongTrain()) {
+					walk('max', "Горы");
+				} else if (needCare()) {
+					care();
+				} else if (needCarrot()) {
+					carrot();
+				} else if (needSleep()) {
+					sleep();
+				} else {
+					nextAct();
+				}
 			} else if(localStorage.getItem('isHorsePage') == "true") {
 				if(localStorage.getItem('inpActType') == '0') {
 					if(localStorage.getItem('firstChevalId') == chevalId && localStorage.getItem('itIsFirstHorse') == 'false') {
