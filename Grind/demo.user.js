@@ -1,7 +1,7 @@
 
 // ==UserScript==
 // @name         Гринд
-// @version      0.4
+// @version      0.7
 // @description  Гринд...
 // @namespace    http://tampermonkey.net/
 // @author       4eDo (https://github.com/4eDo/lowadi)
