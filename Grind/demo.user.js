@@ -1,6 +1,7 @@
+
 // ==UserScript==
 // @name         Гринд
-// @version      0.6
+// @version      0.4
 // @description  Гринд...
 // @namespace    http://tampermonkey.net/
 // @author       4eDo (https://github.com/4eDo/lowadi)
@@ -15,8 +16,9 @@
 		$('#tab-grind-settings').click(function(){showGrindSettings();});
 	}
 	
+	
 function fetchGrindSettingsFetch() {
-	fetch('https://raw.githubusercontent.com/4eDo/lowadi/main/static/settingsTab.js').then(function(response) { 
+	fetch('https://raw.githubusercontent.com/4eDo/lowadi/main/static/settingsTab.txt').then(function(response) { 
         if (!response.ok) { 
             return false; 
         } 
