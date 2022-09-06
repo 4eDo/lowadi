@@ -6,7 +6,7 @@
 // @namespace    http://tampermonkey.net/
 // @author       4eDo (https://github.com/4eDo/lowadi)
 // @match        https://www.lowadi.com/elevage/chevaux/*
-// @match        https://www.lowadi.com/elevage/bureau/
+// @match        https://www.lowadi.com/elevage/bureau/*
 // ==/UserScript==
 	
 (function() {
