@@ -1,7 +1,7 @@
 
 // ==UserScript==
 // @name         Гринд
-// @version      0.4
+// @version      0.5
 // @description  Гринд...
 // @namespace    http://tampermonkey.net/
 // @author       4eDo (https://github.com/4eDo/lowadi)
@@ -16,7 +16,7 @@
 		$('section.content__middle > ul.tab').append('<li id="tab-grind-settings" class="tab-style-6-0-0"><div><a style="" class="tab-action">Настройки скрипта</a></div></li>');
 	}
 	
-	$('#tab-grind-settings').click(showGrindSettings());
+	$('#tab-grind-settings').addEventListener('click', showGrindSettings());
 	
 function showGrindSettings() {
 		$('section.content__middle > ul.tab > li.selected').attr('class', 'tab-style-6-0-0');
