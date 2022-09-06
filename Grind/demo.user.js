@@ -1,7 +1,7 @@
 
 // ==UserScript==
 // @name         Гринд
-// @version      0.2
+// @version      0.3
 // @description  Гринд...
 // @namespace    http://tampermonkey.net/
 // @author       4eDo (https://github.com/4eDo/lowadi)
@@ -9,10 +9,7 @@
 // @match        https://www.lowadi.com/elevage/bureau/
 // ==/UserScript==
 
-(function() {
-    'use strict';
-	
-	function showGrindSettings() {
+function showGrindSettings() {
 		$('section.content__middle > ul.tab > li.selected').attr('class', 'tab-style-6-0-0');
 		$('#tab-grind-settings').attr('class', 'tab-style-6-0-0 selected');
 		
@@ -129,6 +126,8 @@
 								+'</select></p>');
 	}
 	
+(function() {
+    'use strict';
 	
     if(location.href.indexOf('elevage/bureau/') !== -1) {
 		$('section.content__middle > ul.tab').append('<li id="tab-grind-settings" class="tab-style-6-0-0"><div><a style="" class="tab-action"onclick="showGrindSettings();">Настройки скрипта</a></div></li>');
