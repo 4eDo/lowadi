@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Кач-прогон
-// @version      1.0
+// @version      1.1
 // @description  ПРИ ВЫПОЛНЕНИИ НЕ СИДИТЕ НА СТРАНИЦЕ, ОТ ЭТОГО СКРИПТ ТОРМОЗИТ! И НЕ ЗАХОДИТЕ К ДРУГИМ ЛОШАДЯМ!
 // @namespace    http://tampermonkey.net/
 // @author       4eDo (https://github.com/4eDo/lowadi)
@@ -183,7 +183,7 @@ function needMilk()		{ return isDisabled('boutonAllaiter');}
 function needDrink()	{ return isDisabled('boutonBoire');}
 function needCarrot()	{ return isDisabled('boutonCarotte') && doCarrot == 1;}
 function needCare() 	{ return isDisabled('boutonCaresser');}
-function needShortGame() {return chevalEnergie > 90;}
+function needShortGame() {return chevalEnergie > 90 && !needDrink();}
 function needLongGame() { return chevalEnergie < 90 && chevalEnergie > 70 && needCare();}
 function needWash()		{ return isDisabled('boutonPanser');}
 
