@@ -1,3 +1,7 @@
+    if(location.href.indexOf('#tab-grind-settings') !== -1) {
+		showGrindSettings();
+	}
+
 function showGrindSettings() {
 		$('section.content__middle > ul.tab > li.selected').attr('class', 'tab-style-6-0-0');
 		$('#tab-grind-settings').attr('class', 'tab-style-6-0-0 selected');
