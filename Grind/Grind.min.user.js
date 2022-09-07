@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Кач-прогон
-// @version      1.0
+// @version      1.1
 // @description  ПРИ ВЫПОЛНЕНИИ НЕ ЗАХОДИТЕ К ДРУГИМ ЛОШАДЯМ!
 // @namespace    http://tampermonkey.net/
 // @author       4eDo (https://github.com/4eDo/lowadi)
