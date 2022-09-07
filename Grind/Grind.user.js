@@ -478,5 +478,5 @@ var mainSet = setTimeout(function run() {
     if (localStorage.getItem('stopGrind') == 0) {
         progon();
     }
-    setTimeout(run, pause(0));
-}, pause(0));
+    setTimeout(run, pause(100));
+}, pause(100));
