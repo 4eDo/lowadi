@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Гринд
-// @version      0.8
+// @version      0.9
 // @description  Гринд...
 // @namespace    http://tampermonkey.net/
 // @author       4eDo (https://github.com/4eDo/lowadi)
@@ -10,9 +10,13 @@
 	
 
     if(location.href.indexOf('elevage/bureau/') !== -1) {
-		$('section.content__middle > ul.tab').append('<li id="tab-grind-settings" class="tab-style-6-0-0"><div><a style="" class="tab-action">Настройки скрипта</a></div></li>');
+		$('section.content__middle > ul.tab').append('<li id="tab-grind-settings" class="tab-style-6-0-0"><div><a style="" href="https://www.lowadi.com/elevage/bureau/#tab-grind-settings" class="tab-action">Настройки скрипта</a></div></li>');
 		fetchGrindSettingsFetch();
 		$('#tab-grind-settings').click(function(){showGrindSettings();});
+	}
+	
+	if (location.href.indexOf('chevaux/cheval?id') !== -1) {
+		
 	}
 	
 	
