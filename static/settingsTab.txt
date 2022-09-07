@@ -124,7 +124,8 @@ function showGrindSettings() {
 		$('#grindSettings').append('<p class="spacer-top button button-style-0" id="submitNewSettings" href="#" style="" data-anim="0"><span class="button-align-0"><span class="button-inner-0"><span class="button-text-0">СОХРАНИТЬ НАСТРОЙКИ</span></span></span></p>');
 		
 		loadGrindLocalStorage();
-		$('#tab-grind-settings').click(function(){updateGrindLocalStorage();});
+		$('#submitNewSettings').click(function(){updateGrindLocalStorage();});
+		alert("Настройки успшно применены!");
 	}
 	
 	function loadGrindLocalStorage(){
