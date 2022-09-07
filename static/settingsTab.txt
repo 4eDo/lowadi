@@ -122,7 +122,7 @@ function showGrindSettings() {
 		$('#grindSettings').append(hr);
 		$('#grindSettings').append(hr);
 		$('#grindSettings').append('<p class="spacer-top button button-style-0" id="submitNewSettings" href="#" style="float: right;" data-anim="0"><span class="button-align-0"><span class="button-inner-0"><span class="button-text-0">СОХРАНИТЬ НАСТРОЙКИ</span></span></span></p>');
-		$('#grindSettings').append('<p class="spacer-top button button-style-0" id="removeAllSettings" href="#" style="float: right;filter: hue-rotate(276deg) brightness(89%);" data-anim="0"><span class="button-align-0"><span class="button-inner-0"><span class="button-text-0">СОХРАНИТЬ НАСТРОЙКИ</span></span></span></p>');
+		$('#grindSettings').append('<br><p class="spacer-top button button-style-0" id="removeAllSettings" href="#" style="float: right;filter: hue-rotate(276deg) brightness(89%);" data-anim="0"><span class="button-align-0"><span class="button-inner-0"><span class="button-text-0">Сбросить всё</span></span></span></p>');
 		
 		loadGrindLocalStorage();
 		$('#submitNewSettings').click(function(){updateGrindLocalStorage();});
@@ -267,5 +267,7 @@ function cleanGrindLocalStorage(){
 		localStorage.removeItem("grConc_act_14");
 		localStorage.removeItem("grConсBeachFROM");
 		localStorage.removeItem("grConсBeachTO");
+		
+		location.reload();
 	}
 }
