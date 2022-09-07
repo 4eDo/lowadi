@@ -125,7 +125,6 @@ function showGrindSettings() {
 		
 		loadGrindLocalStorage();
 		$('#submitNewSettings').click(function(){updateGrindLocalStorage();});
-		alert("Настройки успшно применены!");
 	}
 	
 	function loadGrindLocalStorage(){
@@ -224,5 +223,5 @@ function showGrindSettings() {
 		// BOGOGON
 		
 		localStorage.setItem('isGrindSettings', 1);
-		
+		alert("Настройки успшно применены!");
 	}
