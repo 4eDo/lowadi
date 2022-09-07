@@ -1,4 +1,3 @@
-
 // ==UserScript==
 // @name         Гринд
 // @version      0.8
