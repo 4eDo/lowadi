@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Кач-прогон
-// @version      1.1
+// @version      1.2
 // @description  ПРИ ВЫПОЛНЕНИИ НЕ СИДИТЕ НА СТРАНИЦЕ, ОТ ЭТОГО СКРИПТ ТОРМОЗИТ! И НЕ ЗАХОДИТЕ К ДРУГИМ ЛОШАДЯМ!
 // @namespace    http://tampermonkey.net/
 // @author       4eDo (https://github.com/4eDo/lowadi)
@@ -61,7 +61,7 @@ $('body#global').append('<div class="stopMe" style="display:block;color:#ffffff;
 	localStorage.setItem('stopGrind', 0);
 	var growButton = 0;
 
-function pause(add){ return Math.floor(Math.random() * (200 - 120 + 1)) + 120 + add;}
+function pause(add = 0){ return Math.floor(Math.random() * (150 - 100 + 1)) + 100 + add;}
 
 
 function stopAll(){
@@ -472,11 +472,11 @@ async function progon() {
 }
 var checkSet = setTimeout(function run1() {
     growButton = 0;
-    setTimeout(run1, pause(8000));
-}, pause(8000));
+    setTimeout(run1, pause(6000));
+}, pause(6000));
 var mainSet = setTimeout(function run() {
     if (localStorage.getItem('stopGrind') == 0) {
         progon();
     }
-    setTimeout(run, pause(100));
-}, pause(100));
+    setTimeout(run, pause(0));
+}, pause(0));
