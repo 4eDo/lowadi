@@ -48,7 +48,31 @@ var msg_02 = "Настройки для запуска не обнаружены
 	var grConсBeachFROM = localStorage.getItem("grConсBeachFROM");
 	var grConсBeachTO = localStorage.getItem("grConсBeachTO");
 	
+/** Рабочие методы */
+	function getMerch(b){
+		var c=0,d=$("#objects-body-content a");
+		if(0!==d.length)for(var e=0;e<d.length;e++)-1!==$("#objects-body-content a").eq(e).attr("data-tooltip").indexOf(b)&&(c=1);
+		return 0!=c;
+	}
+	function pause(add = 0){ return Math.floor(Math.random() * (80 - 30 + 1)) + 30 + add;}
 	
+	function sleepJS(milliseconds) {
+	  const date = Date.now();
+	  let currentDate = null;
+	  do {
+		currentDate = Date.now();
+	  } while (currentDate - date < milliseconds);
+	}
+	async function goToLink(href, pause) {
+		console.log("href -> " + href);
+		document.location.href = href;
+		sleepJS(pause(pause));
+		console.log("done -> " + href);
+	}
+	function nextHorse() {
+		console.log("next");
+		goToLink($('#nav-next').attr('href'), 1);
+	}
 
 	
 /** Панелька запуска и остановки (видна в офисе и у лошади)*/
