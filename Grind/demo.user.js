@@ -1,26 +1,66 @@
 // ==UserScript==
 // @name         Гринд
-// @version      0.11
+// @version      0.12
 // @description  Гринд...
 // @namespace    http://tampermonkey.net/
 // @author       4eDo (https://github.com/4eDo/lowadi)
 // @match        https://www.lowadi.com/elevage/chevaux/*
 // @match        https://www.lowadi.com/elevage/bureau/*
 // ==/UserScript==
-/** Всякие переменные */
+/** Всякие сообщения */
 var msg_01 = "Скрипт можно запускать только на странице лошади!";
+var msg_02 = "Настройки для запуска не обнаружены!";
+
+/** Получение инфы из памяти */
+	var grAllActType = localStorage.getItem("grAllActType");
+	var grAllHeadsCount = localStorage.getItem("grAllHeadsCount");
+	
+	var grConcKskType = localStorage.getItem("grConcKskType");
+	var grConcKskLocate = localStorage.getItem("grConcKskLocate");
+	var grConcAmun = localStorage.getItem("grConcAmun");
+	var grConcGugel = localStorage.getItem("grConcGugel");
+	var grConcMakeBaby = localStorage.getItem("grConcMakeBaby");
+	var grConcMZ = localStorage.getItem("grConcMZ");
+	var grConcCoit = localStorage.getItem("grConcCoit");
+	var grConcDir = localStorage.getItem("grConcDir");
+	var grConcAff = localStorage.getItem("grConcAff");
+	var grConcNameStrat = localStorage.getItem("grConcNameStrat");
+	var grConcMale = localStorage.getItem("grConcMale");
+	var grConcFemale = localStorage.getItem("grConcFemale");
+	var grConcNameList = localStorage.getItem("grConcNameList");
+	
+	var grConcDoLesson = localStorage.getItem("grConcDoLesson");
+	var grConcDoGames = localStorage.getItem("grConcDoGames");
+	var grConc_act_01 = localStorage.getItem("grConc_act_01");
+	var grConc_act_02 = localStorage.getItem("grConc_act_02");
+	var grConc_act_03 = localStorage.getItem("grConc_act_03");
+	var grConc_act_04 = localStorage.getItem("grConc_act_04");
+	var grConc_act_05 = localStorage.getItem("grConc_act_05");
+	var grConc_act_06 = localStorage.getItem("grConc_act_06");
+	var grConc_act_07 = localStorage.getItem("grConc_act_07");
+	var grConc_act_08 = localStorage.getItem("grConc_act_08");
+	var grConc_act_09 = localStorage.getItem("grConc_act_09");
+	var grConc_act_10 = localStorage.getItem("grConc_act_10");
+	var grConc_act_11 = localStorage.getItem("grConc_act_11");
+	var grConc_act_12 = localStorage.getItem("grConc_act_12");
+	var grConc_act_13 = localStorage.getItem("grConc_act_13");
+	var grConc_act_14 = localStorage.getItem("grConc_act_14");
+	var grConсBeachFROM = localStorage.getItem("grConсBeachFROM");
+	var grConсBeachTO = localStorage.getItem("grConсBeachTO");
+	
+	
+
 	
 /** Панелька запуска и остановки (видна в офисе и у лошади)*/
 	var navPanelGT = '<div style="background: #333333d0;width: 130px;padding: 10px;line-height: 30px;position: fixed;z-index: 9999;border-radius:4px;top: 0px;"><button id="runGringButton" style="width: 130px;">Запустить кач</button><button id="runTabogonButton" style="width: 130px;">Запустить прогон</button><button id="goToSettingsButton" style="width: 130px;"><a href="https://www.lowadi.com/elevage/bureau/#tab-grind-settings">НАСТРОЙКИ</a></button><button id="StopAllGTButton" style="width: 130px;height: 50px;" disabled>ОСТАНОВИТЬ</button></div>';
 	$('body#global').append(navPanelGT);
-		
 
-	if (location.href.indexOf('chevaux/cheval?id') !== -1) {
+	if (location.href.indexOf('chevaux/cheval?id') !== -1 && localStorage.getItem('isGrindSettings') !== null) {
 		$('#runGringButton').click(function(){runGrindPlz();});
 		$('#runTabogonButton').click(function(){runTabogon();});
 	} else {
-		$('#runGringButton').click(function(){alert(msg_01);});
-		$('#runTabogonButton').click(function(){alert(msg_01);});
+		$('#runGringButton').click(function(){alert(localStorage.getItem('isGrindSettings') !== null ? msg_01 : msg_02);});
+		$('#runTabogonButton').click(function(){alert(localStorage.getItem('isGrindSettings') !== null ? msg_01 : msg_02);});
 	}
 	$('#StopAllGTButton').click(function(){stopAllGT();});
 
